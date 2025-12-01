@@ -46,14 +46,14 @@ jobs:
           cd ${{ inputs.rundir }}
 
           SERVICEPORT=$(cat SERVICEPORT)
-          FB_BASEURL="/me/sessions/$(cat PW_USER)/${{ sessions.session }}"
+          FB_BASE_URL="/me/sessions/$(cat PW_USER)/${{ sessions.session }}"
 
           cat > ${{ inputs.rundir }}/docker-compose.yml << YAML
             services:
               filebrowser:
-                image: filebrowser/filebrowser:v2.49.0
+                image: filebrowser/filebrowser:v2.50.0
                 environment:
-                  FB_BASEURL: ${FB_BASEURL}
+                  FB_BASE_URL: ${FB_BASE_URL}
                   FB_ADDRESS: "0.0.0.0"
                   FB_LOG: stdout
                   FB_AUTH_METHOD: json
@@ -107,9 +107,15 @@ jobs:
         type: compute-clusters
         label: Service Host
         autoselect: true
+        #provider:
+        #  - aws-slurm
+        #  - google-slurm
+        #  - azure-slurm
         include-workspace: false
         tooltip: Resource to host the service
       rundir:
         label: Run Directory
         default: ~/filebrowser
         type: string
+
+
